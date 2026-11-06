@@ -61,6 +61,14 @@ class Package extends Model
     }
 
     /**
+     * Get all bookings associated with this package.
+     */
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'package_id');
+    }
+
+    /**
      * Scope a query to only include active packages.
      */
     public function scopeActive(Builder $query): void

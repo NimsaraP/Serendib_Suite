@@ -52,4 +52,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Package::class, 'photographer_id');
     }
+
+    /**
+     * Get all bookings placed by this client.
+     */
+    public function clientBookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'client_id');
+    }
+
+    /**
+     * Get all bookings managed by this photographer.
+     */
+    public function photographerBookings(): HasMany
+    {
+        return $this->hasMany(Booking::class, 'photographer_id');
+    }
 }

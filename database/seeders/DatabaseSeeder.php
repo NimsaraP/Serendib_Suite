@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Booking;
 use App\Models\Package;
 use App\Models\PackageItem;
 use App\Models\Studio;
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        $client = User::where('email', 'test@example.com')->first();
         $photographer = User::where('email', 'photographer@example.com')->first();
 
         // Retrieve or create a studio belonging to the photographer.
@@ -113,6 +115,28 @@ class DatabaseSeeder extends Seeder
                     'item_name' => $itemName,
                 ]);
             }
+        }
+
+        // Create a sample confirmed booking linking client, photographer, and package
+        $silverPackage = Package::where('package_name', 'Silver Portrait Package')->first();
+        if ($client && $photographer && $silverPackage) {
+            Booking::firstOrCreate(
+                [
+                    'client_id' => $client->id,
+                    'photographer_id' => $photographer->id,
+                    'package_id' => $silverPackage->id,
+                    'event_date' => now()->addWeeks(2)->toDateString(),
+                ],
+                [
+                    'studio_id' => $studio->id,
+                    'package_price' => $silverPackage->price,
+                    'event_location' => 'Serendib Creative Studios, Colombo',
+                    'special_requirements' => 'Family portrait session with natural lighting preference.',
+                    'booking_date' => now()->toDateString(),
+                    'booking_status' => 'accepted',
+                    'event_status' => 'upcoming',
+                ]
+            );
         }
     }
 }
