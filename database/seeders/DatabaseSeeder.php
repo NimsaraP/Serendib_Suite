@@ -15,11 +15,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Create a client only if the email does not already exist.
+        if (! User::where('email', 'test@example.com')->exists()) {
+            User::factory()->create([
+                'full_name' => 'Test User',
+                'email' => 'test@example.com',
+                'role' => 'client',
+            ]);
+        }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Create a photographer only if the email does not already exist.
+        if (! User::where('email', 'photographer@example.com')->exists()) {
+            User::factory()->photographer()->create([
+                'full_name' => 'Test Photographer',
+                'email' => 'photographer@example.com',
+            ]);
+        }
     }
 }
