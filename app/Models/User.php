@@ -44,4 +44,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Studio::class, 'photographer_id');
     }
+
+    /**
+     * Get all packages belonging to this photographer.
+     */
+    public function packages(): HasMany
+    {
+        return $this->hasMany(Package::class, 'photographer_id');
+    }
 }
