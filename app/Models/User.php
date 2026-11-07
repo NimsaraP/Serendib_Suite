@@ -68,4 +68,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Booking::class, 'photographer_id');
     }
+
+    /**
+     * Get all invoices billed to this client.
+     */
+    public function clientInvoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class, 'client_id');
+    }
 }

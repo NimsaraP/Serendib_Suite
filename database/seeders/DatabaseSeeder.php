@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Booking;
+use App\Models\Invoice;
 use App\Models\Package;
 use App\Models\PackageItem;
 use App\Models\Studio;
@@ -135,6 +136,26 @@ class DatabaseSeeder extends Seeder
                     'booking_date' => now()->toDateString(),
                     'booking_status' => 'accepted',
                     'event_status' => 'upcoming',
+                ]
+            );
+        }
+
+        // Create a sample invoice linked to the confirmed booking
+        $booking = Booking::where('booking_status', 'accepted')->first();
+        if ($booking) {
+            Invoice::firstOrCreate(
+                [
+                    'booking_id' => $booking->id,
+                ],
+                [
+                    'client_id' => $booking->client_id,
+                    'invoice_number' => 'INV-2026-0001',
+                    'issue_date' => now()->toDateString(),
+                    'due_date' => now()->addDays(14)->toDateString(),
+                    'total_amount' => $booking->package_price,
+                    'amount_paid' => 50.00,
+                    'payment_status' => 'Partially Paid',
+                    'notes' => 'Deposit received. Outstanding balance payable on or before event date.',
                 ]
             );
         }
