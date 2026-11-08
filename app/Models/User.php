@@ -38,6 +38,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Determine if the user is a client.
+     */
+    public function isClient(): bool
+    {
+        return $this->role === 'client';
+    }
+
+    /**
+     * Determine if the user is a photographer.
+     */
+    public function isPhotographer(): bool
+    {
+        return $this->role === 'photographer';
+    }
+
+    /**
      * Get all studios belonging to this photographer.
      */
     public function studios(): HasMany
